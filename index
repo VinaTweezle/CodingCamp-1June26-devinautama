@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Dashboard</title>
+
+  <!-- Anti-FOUC: reads saved theme and applies it before first paint -->
+  <script>
+    (function () {
+      try {
+        // Storage.set JSON-stringifies values, so the raw value is '"dark"' or '"light"'
+        var raw = localStorage.getItem('tld_theme');
+        var theme = raw ? JSON.parse(raw) : 'light';
+        document.documentElement.setAttribute('data-theme', theme === 'dark' ? 'dark' : 'light');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Life Dashboard</h1>
+    <button id="theme-toggle" aria-label="Switch to dark mode">🌙</button>
+  </header>
+
+  <main>
+    <div class="dashboard-grid">
+
+      <!-- ── Greeting Panel ───────────────────────────────────────────── -->
+      <section id="greeting-panel" aria-label="Greeting">
+        <div id="greeting-text"></div>
+        <div id="clock" aria-live="polite" aria-atomic="true"></div>
+        <div id="date-display"></div>
+        <div id="name-form">
+          <input
+            id="name-input"
+            type="text"
+            placeholder="Enter your name"
+            aria-label="Your name"
+            autocomplete="given-name"
+          >
+          <button id="name-submit" type="button">Save</button>
+        </div>
+      </section>
+
+      <!-- ── Focus Timer ───────────────────────────────────────────────── -->
+      <section id="timer-panel" aria-label="Focus Timer">
+        <h2 class="panel-title">Focus Timer</h2>
+        <p class="panel-description">Get to work for 25 minutes without any distractions!</p>
+        <div
+          id="timer-display"
+          role="timer"
+          aria-live="off"
+          aria-label="Time remaining"
+        >25:00</div>
+        <div id="timer-controls">
+          <button id="timer-start" type="button">Start</button>
+          <button id="timer-stop"  type="button">Stop</button>
+          <button id="timer-reset" type="button">Reset</button>
+        </div>
+      </section>
+
+      <!-- ── Task Manager ──────────────────────────────────────────────── -->
+      <section id="task-panel" aria-label="Tasks">
+        <div id="task-input-row">
+          <input
+            id="task-input"
+            type="text"
+            placeholder="New task…"
+            aria-label="New task description"
+          >
+          <button id="task-submit" type="button">Add</button>
+        </div>
+        <div id="task-validation" role="alert" aria-live="polite"></div>
+        <div id="task-sort-controls" aria-label="Sort tasks">
+          <button id="sort-active"    type="button">Active first</button>
+          <button id="sort-completed" type="button">Completed first</button>
+        </div>
+        <ul id="task-list" aria-label="Task list" aria-live="polite"></ul>
+      </section>
+
+      <!-- ── Quick Links ───────────────────────────────────────────────── -->
+      <section id="links-panel" aria-label="Quick Links">
+        <h2 class="panel-title">Shortcut Sites</h2>
+        <div id="link-input-row">
+          <input
+            id="link-label-input"
+            type="text"
+            placeholder="Label"
+            aria-label="Link label"
+          >
+          <input
+            id="link-url-input"
+            type="url"
+            placeholder="https://…"
+            aria-label="Link URL"
+          >
+          <button id="link-submit" type="button">Add</button>
+        </div>
+        <div id="link-validation" role="alert" aria-live="polite"></div>
+        <div id="links-grid" aria-label="Saved links"></div>
+      </section>
+
+    </div><!-- /.dashboard-grid -->
+  </main>
+
+  <!-- All application logic — loaded after the DOM is ready -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
